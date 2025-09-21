@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>MetaAdsAnalyzer</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home" fill="clear" color="primary">
+        <ion-icon slot="start" name="home-outline"></ion-icon>
+        Inicio
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding login-content">
+  <div class="login-container">
+    <!-- Logo/Icon -->
+    <div class="logo-container">
+      <div class="logo-wrapper">
+        <ion-icon name="log-in-outline" class="logo-icon"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Main Card -->
+    <ion-card class="login-card">
+      <ion-card-content>
+        <h2 class="login-title">Iniciar sesión</h2>
+
+        <form (ngSubmit)="onSubmit()">
+          <div class="form-container">
+            <!-- Email Input - Versión Híbrida -->
+            <div class="input-group">
+              <label class="input-label">Usuario o correo electrónico</label>
+              <input
+                type="email"
+                [(ngModel)]="email"
+                name="email"
+                class="custom-input"
+                placeholder="usuario@ejemplo.com"
+                required
+              />
+              <div class="error-message" *ngIf="emailError">
+                {{ emailError }}
+              </div>
+            </div>
+
+            <!-- Password Input - Versión Híbrida -->
+            <div class="input-group">
+              <label class="input-label">Contraseña</label>
+              <input
+                type="password"
+                [(ngModel)]="password"
+                name="password"
+                class="custom-input"
+                placeholder="••••••••"
+                required
+              />
+              <div class="error-message" *ngIf="passwordError">
+                {{ passwordError }}
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <ion-button
+              expand="block"
+              type="submit"
+              class="login-button"
+              [disabled]="loading"
+            >
+              <ion-icon slot="start" name="log-in-outline"></ion-icon>
+              <span *ngIf="!loading">INICIAR SESIÓN</span>
+              <span *ngIf="loading">PROCESANDO...</span>
+            </ion-button>
+
+            <!-- General Error Message -->
+            <div class="error-message text-center" *ngIf="error">
+              {{ error }}
+            </div>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Footer -->
+    <div class="footer-text">
+      <p>© 2025 MetaAdsAnalyzer</p>
+    </div>
+  </div>
+</ion-content>

@@ -1,20 +1,84 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Meta ADS Analyzer</ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content class="ion-padding">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <h1 class="page-title ion-text-center">
+      Bienvenido al Analizador de Meta ADS
+    </h1>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <!-- Main Card -->
+    <div class="main-card-container">
+      <ion-card class="main-card">
+        <ion-card-content class="ion-text-center">
+          <h2 class="card-title">
+            Analiza tus campañas de Meta ADS
+          </h2>
+          <p class="card-description">
+            Inicia sesión para acceder a las herramientas de análisis de datos de Meta ADS.
+          </p>
+          <ion-button
+            routerLink="/login"
+            class="login-button"
+            style="--background: #a855f7; --color: #fff;">
+            <ion-icon name="log-in-outline" slot="start"></ion-icon>
+            Iniciar Sesión
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <!-- Features Section -->
+    <ion-grid class="features-grid">
+      <ion-row>
+        <!-- Feature 1 -->
+        <ion-col size="12" size-sm="4">
+          <ion-card class="feature-card">
+            <ion-card-content class="ion-text-center">
+              <div class="feature-icon-wrapper">
+                <ion-icon name="bar-chart-outline" class="feature-icon"></ion-icon>
+              </div>
+              <h3 class="feature-title">Análisis Detallado</h3>
+              <p class="feature-description">
+                Visualiza todos los indicadores clave de rendimiento de tus campañas en Meta ADS.
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <!-- Feature 2 -->
+        <ion-col size="12" size-sm="4">
+          <ion-card class="feature-card">
+            <ion-card-content class="ion-text-center">
+              <div class="feature-icon-wrapper">
+                <ion-icon name="trending-up-outline" class="feature-icon"></ion-icon>
+              </div>
+              <h3 class="feature-title">Gráficos Interactivos</h3>
+              <p class="feature-description">
+                Interactúa con gráficos dinámicos que facilitan la comprensión de tus datos.
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <!-- Feature 3 -->
+        <ion-col size="12" size-sm="4">
+          <ion-card class="feature-card">
+            <ion-card-content class="ion-text-center">
+              <div class="feature-icon-wrapper">
+                <ion-icon name="cloud-upload-outline" class="feature-icon"></ion-icon>
+              </div>
+              <h3 class="feature-title">Importación Fácil</h3>
+              <p class="feature-description">
+                Importa tus archivos CSV directamente desde Meta ADS para un análisis inmediato.
+              </p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div> <!-- Aquí faltaba cerrar el div hero-section -->
 </ion-content>

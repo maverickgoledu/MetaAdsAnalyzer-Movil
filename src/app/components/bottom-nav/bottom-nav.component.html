@@ -1,0 +1,22 @@
+<!-- bottom-nav.component.html -->
+<ion-tab-bar style="position: fixed; bottom: 0; width: 100%; z-index: 999;">
+  <ion-tab-button tab="inicio" routerLink="/inicio" [selected]="router.url === '/inicio'">
+    <ion-icon name="home-outline"></ion-icon>
+    <ion-label>Inicio</ion-label>
+  </ion-tab-button>
+  
+  <ion-tab-button tab="dashboard" routerLink="/dashboard" [selected]="router.url === '/dashboard'">
+    <ion-icon name="stats-chart-outline"></ion-icon>
+    <ion-label>Dashboard</ion-label>
+  </ion-tab-button>
+  
+  <ion-tab-button tab="ia" routerLink="/ia" [selected]="router.url === '/ia'">
+    <ion-icon name="sparkles-outline"></ion-icon>
+    <ion-label>IA</ion-label>
+  </ion-tab-button>
+  
+  <ion-tab-button tab="usuarios" routerLink="/usuarios" [selected]="router.url === '/usuarios'">
+    <ion-icon name="people-outline"></ion-icon>
+    <ion-label>Usuarios</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>

@@ -1,0 +1,352 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Dashboard Meta ADS</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToIA()" fill="clear" size="small">
+        <ion-icon slot="start" name="bulb-outline"></ion-icon>
+        <ion-label class="ion-hide-sm-down">Análisis IA</ion-label>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Alert de última actualización -->
+  <ion-item *ngIf="dashboardData?.UltimaCarga" lines="none" color="tertiary">
+    <ion-icon name="time-outline" slot="start"></ion-icon>
+    <ion-label>
+      <p>Actualizado: {{ formatDate(dashboardData?.UltimaCarga) }}</p>
+    </ion-label>
+  </ion-item>
+
+  <!-- Mensaje de error -->
+  <ion-item *ngIf="error" lines="none" color="danger">
+    <ion-icon name="alert-circle-outline" slot="start"></ion-icon>
+    <ion-label>
+      <p>{{ error }}</p>
+    </ion-label>
+  </ion-item>
+
+  <!-- Loading general -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="circular" color="primary"></ion-spinner>
+  </div>
+
+  <!-- Filtros -->
+  <ion-card>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" size-sm="3">
+            <ion-item lines="none">
+              <ion-label position="floating">Fecha inicio</ion-label>
+              <ion-input 
+                type="date" 
+                [(ngModel)]="filters.startDate" 
+                name="startDate"
+                required>
+              </ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" size-sm="3">
+            <ion-item lines="none">
+              <ion-label position="floating">Fecha fin</ion-label>
+              <ion-input 
+                type="date" 
+                [(ngModel)]="filters.endDate" 
+                name="endDate"
+                required>
+              </ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" size-sm="3">
+            <ion-item lines="none">
+              <ion-label position="floating">Conjunto</ion-label>
+              <ion-select [(ngModel)]="filters.adSetName" interface="popover">
+                <ion-select-option value="">Todos</ion-select-option>
+                <ion-select-option
+                  *ngFor="let adSet of dashboardData?.AvailableAdSets"
+                  [value]="adSet"
+                >
+                  {{ adSet }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" size-sm="3" class="ion-text-center">
+            <ion-button
+              (click)="applyFilters()"
+              expand="block"
+              fill="solid"
+              color="primary"
+            >
+              <ion-icon slot="start" name="filter"></ion-icon>
+              Filtrar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Loading específico del dashboard -->
+  <div *ngIf="!dashboardData && !isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="circular" color="primary"></ion-spinner>
+  </div>
+
+  <!-- KPIs -->
+  <ion-grid *ngIf="dashboardData">
+    <!-- Primera fila de KPIs -->
+    <ion-row>
+      <ion-col size="6" size-md="3">
+        <ion-card color="primary">
+          <ion-card-content>
+            <ion-text>
+              <p><small>Gastado</small></p>
+              <h2>{{ formatCurrency(dashboardData.TotalImporteGastado) }}</h2>
+            </ion-text>
+            <ion-progress-bar value="0.75" color="light"></ion-progress-bar>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6" size-md="3">
+        <ion-card color="success">
+          <ion-card-content>
+            <ion-text>
+              <p><small>Alcance</small></p>
+              <h2>{{ formatNumber(dashboardData.TotalAlcance) }}</h2>
+            </ion-text>
+            <ion-progress-bar value="0.85" color="light"></ion-progress-bar>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6" size-md="3">
+        <ion-card color="warning">
+          <ion-card-content>
+            <ion-text>
+              <p><small>Impresiones</small></p>
+              <h2>{{ formatNumber(dashboardData.TotalImpresiones) }}</h2>
+            </ion-text>
+            <ion-progress-bar value="0.65" color="light"></ion-progress-bar>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6" size-md="3">
+        <ion-card color="tertiary">
+          <ion-card-content>
+            <ion-text>
+              <p><small>Resultados</small></p>
+              <h2>{{ formatNumber(dashboardData.TotalResultados) }}</h2>
+            </ion-text>
+            <ion-progress-bar value="0.90" color="light"></ion-progress-bar>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- Segunda fila de KPIs -->
+    <ion-row>
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <ion-card-content class="ion-text-center">
+            <ion-text color="medium">
+              <p><small>Costo/Resultado</small></p>
+            </ion-text>
+            <ion-text color="primary">
+              <h3>
+                {{ formatCurrency(dashboardData.CostoPromedioResultado) }}
+              </h3>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <ion-card-content class="ion-text-center">
+            <ion-text color="medium">
+              <p><small>Alcance/Impresiones</small></p>
+            </ion-text>
+            <ion-text color="primary">
+              <h3>{{ dashboardData.AlcanceVsImpresiones.toFixed(2) }}</h3>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <ion-card-content class="ion-text-center">
+            <ion-text color="medium">
+              <p><small>Conversión</small></p>
+            </ion-text>
+            <ion-text color="primary">
+              <h3>{{ formatPercentage(dashboardData.TasaConversion) }}</h3>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6" size-md="3">
+        <ion-card>
+          <ion-card-content class="ion-text-center">
+            <ion-text color="medium">
+              <p><small>CPM</small></p>
+            </ion-text>
+            <ion-text color="primary">
+              <h3>
+                {{ formatCurrency(dashboardData.CostoPorMilImpresiones) }}
+              </h3>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Gráficos -->
+  <ion-grid *ngIf="dashboardData">
+    <ion-row>
+      <ion-col size="12" size-lg="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Presupuesto por conjunto</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #budgetChart [style.height.px]="200"> </canvas>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="12" size-lg="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Distribución del gasto</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #spendChart [style.height.px]="200"> </canvas>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Tendencia mensual -->
+  <ion-card *ngIf="monthlyData">
+    <ion-card-header>
+      <ion-card-subtitle>Tendencia mensual</ion-card-subtitle>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" size-sm="6">
+            <ion-select
+              [(ngModel)]="selectedAdSetForTrend"
+              (ionChange)="onAdSetChange()"
+              interface="popover"
+            >
+              <ion-select-option value="all"
+                >Todos los conjuntos</ion-select-option
+              >
+              <ion-select-option
+                *ngFor="let adSet of dashboardData?.AvailableAdSets"
+                [value]="adSet"
+              >
+                {{ adSet }}
+              </ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="12" size-sm="6">
+            <ion-select
+              [(ngModel)]="selectedMetric"
+              (ionChange)="onMetricChange()"
+              interface="popover"
+            >
+              <ion-select-option value="ImporteGastado"
+                >Importe</ion-select-option
+              >
+              <ion-select-option value="Alcance">Alcance</ion-select-option>
+              <ion-select-option value="Impresiones"
+                >Impresiones</ion-select-option
+              >
+              <ion-select-option value="Resultados"
+                >Resultados</ion-select-option
+              >
+            </ion-select>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #trendChart [style.height.px]="200"> </canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Métricas por AdSet -->
+  <div *ngIf="adSetsData">
+    <ion-list-header>
+      <ion-label>Métricas por Conjunto de Anuncios</ion-label>
+    </ion-list-header>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="12"
+          size-md="6"
+          size-lg="4"
+          *ngFor="let adSet of dashboardData?.AvailableAdSets"
+        >
+          <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle color="primary">{{ adSet }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list lines="none">
+                <ion-item>
+                  <ion-label>
+                    <p>Gastado</p>
+                    <h3>
+                      {{ formatCurrency(adSetsData.ImporteGastado[adSet] || 0)
+                      }}
+                    </h3>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <p>Alcance</p>
+                    <h3>{{ formatNumber(adSetsData.Alcance[adSet] || 0) }}</h3>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <p>Resultados</p>
+                    <h3>
+                      {{ formatNumber(adSetsData.Resultados[adSet] || 0) }}
+                    </h3>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>
+                    <p>CPR</p>
+                    <ion-text color="tertiary">
+                      <h3>
+                        {{ formatCurrency(adSetsData.CostoPorResultado[adSet] ||
+                        0) }}
+                      </h3>
+                    </ion-text>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
+ 
+ 
+</ion-content>
+      <app-bottom-nav></app-bottom-nav>

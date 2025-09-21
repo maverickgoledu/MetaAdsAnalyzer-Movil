@@ -1,0 +1,27 @@
+/* Estilos para las cards de estadísticas compactas */
+.stats-cards-grid {
+	margin-bottom: 8px;
+}
+.stats-card {
+	box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+	border-radius: 10px;
+	padding: 0.3rem 0.1rem;
+	min-width: 55px;
+	max-width: 70px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.stats-value {
+	font-size: 1rem;
+	font-weight: bold;
+	margin-top: 2px;
+	margin-bottom: 0;
+}
+.stats-label {
+	font-size: 0.6rem;
+	color: #888;
+	margin-top: 0;
+}
+/* Estilos para usuarios */

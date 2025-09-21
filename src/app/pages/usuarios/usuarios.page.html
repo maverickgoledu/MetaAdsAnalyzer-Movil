@@ -1,0 +1,254 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Usuarios</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCreateUserModal()">
+        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Stats Cards Modernas y pequeñas -->
+  <ion-grid class="stats-cards-grid">
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="3" class="ion-no-padding">
+        <ion-card class="stats-card">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="people-outline" color="dark" style="font-size: 2rem;"></ion-icon>
+            <div class="stats-value">{{ users.length }}</div>
+            <div class="stats-label">Total</div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="3" class="ion-no-padding">
+        <ion-card class="stats-card">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="checkmark-circle-outline" color="success" style="font-size: 2rem;"></ion-icon>
+            <div class="stats-value" style="color: #2dd36f;">{{ getActiveUsers() }}</div>
+            <div class="stats-label">Activos</div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="3" class="ion-no-padding">
+        <ion-card class="stats-card">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="shield-checkmark-outline" color="tertiary" style="font-size: 2rem;"></ion-icon>
+            <div class="stats-value" style="color: #7044ff;">{{ getAdminCount() }}</div>
+            <div class="stats-label">Admins</div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="3" class="ion-no-padding">
+        <ion-card class="stats-card">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="sparkles-outline" color="primary" style="font-size: 2rem;"></ion-icon>
+            <div class="stats-value" style="color: #3880ff;">{{ getRecentUsers() }}</div>
+            <div class="stats-label">Nuevos</div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Barra de búsqueda -->
+  <ion-toolbar color="light">
+    <ion-searchbar 
+      [(ngModel)]="searchTerm" 
+      (ionChange)="filterUsers()"
+      placeholder="Buscar usuarios..."
+      animated="true"
+      mode="ios">
+    </ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleFilters()" fill="clear">
+        <ion-icon slot="icon-only" name="filter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Filtros colapsables -->
+  <ion-item-group *ngIf="showFilters">
+    <ion-item color="light">
+      <ion-label>Rol</ion-label>
+      <ion-select [(ngModel)]="roleFilter" (ionChange)="filterUsers()" interface="popover" placeholder="Todos">
+        <ion-select-option value="">Todos</ion-select-option>
+        <ion-select-option value="Admin">Admin</ion-select-option>
+        <ion-select-option value="Usuario">Usuario</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item color="light">
+      <ion-label>Estado</ion-label>
+      <ion-select [(ngModel)]="statusFilter" (ionChange)="filterUsers()" interface="popover" placeholder="Todos">
+        <ion-select-option value="">Todos</ion-select-option>
+        <ion-select-option value="active">Activo</ion-select-option>
+        <ion-select-option value="inactive">Inactivo</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-item-group>
+
+  <!-- Lista de usuarios con sliding -->
+  <ion-list>
+    <ion-item-sliding *ngFor="let user of paginatedUsers">
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-text color="light">
+            <div [style.background]="getGradientColor(user.Username)" 
+                 [style.width.px]="40" 
+                 [style.height.px]="40" 
+                 [style.display]="'flex'" 
+                 [style.align-items]="'center'" 
+                 [style.justify-content]="'center'" 
+                 [style.border-radius.%]="50"
+                 [style.font-weight]="'bold'">
+              {{ user.Username.charAt(0).toUpperCase() }}
+            </div>
+          </ion-text>
+        </ion-avatar>
+        
+        <ion-label>
+          <h3>{{ user.Username }}</h3>
+          <p>
+            <ion-text color="medium">{{ user.Email }}</ion-text>
+          </p>
+          <p>
+            <ion-chip [color]="user.Role === 'Admin' ? 'tertiary' : 'medium'" size="small">
+              <ion-label>{{ user.Role }}</ion-label>
+            </ion-chip>
+            <ion-badge [color]="user.IsActive ? 'success' : 'danger'" mode="ios">
+              {{ user.IsActive ? 'Activo' : 'Inactivo' }}
+            </ion-badge>
+            <ion-note class="ion-margin-start">{{ getRelativeTime(user.LastLogin) }}</ion-note>
+          </p>
+        </ion-label>
+      </ion-item>
+
+      <!-- Opciones deslizables -->
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="openEditUserModal(user)">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="deleteUser(user)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- Estado vacío -->
+  <ion-grid *ngIf="paginatedUsers.length === 0 && filteredUsers.length === 0">
+    <ion-row>
+      <ion-col size="12" class="ion-text-center ion-padding">
+        <ion-icon name="people-outline" size="large" color="medium"></ion-icon>
+        <h4>
+          <ion-text color="medium">No hay usuarios</ion-text>
+        </h4>
+        <p>
+          <ion-text color="medium">
+            {{ searchTerm || roleFilter || statusFilter ? 'Sin resultados' : 'Crea el primer usuario' }}
+          </ion-text>
+        </p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Paginación -->
+  <ion-toolbar *ngIf="filteredUsers.length > itemsPerPage" color="light" class="ion-padding-horizontal">
+    <ion-buttons slot="start">
+      <ion-button (click)="previousPage()" [disabled]="currentPage === 1" fill="clear" size="small">
+        <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+    <ion-title size="small" class="ion-text-center">
+      {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ Math.min(currentPage * itemsPerPage, filteredUsers.length) }} de {{ filteredUsers.length }}
+    </ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-button (click)="nextPage()" [disabled]="currentPage === totalPages" fill="clear" size="small">
+        <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Modal de creación/edición de usuario -->
+  <ion-modal [isOpen]="showCreateUserModal" (willDismiss)="closeCreateUserModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="closeCreateUserModal()">
+              <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title>{{ isEditMode ? 'Editar' : 'Nuevo' }} Usuario</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="submitCreateUser()" [disabled]="createUserForm.invalid || loadingCreateUser" strong="true">
+              <ion-spinner *ngIf="loadingCreateUser" name="dots"></ion-spinner>
+              <span *ngIf="!loadingCreateUser">{{ isEditMode ? 'Guardar' : 'Crear' }}</span>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="ion-padding">
+        <form (ngSubmit)="submitCreateUser()" #createUserForm="ngForm">
+          <ion-item>
+            <ion-label position="floating">Username</ion-label>
+            <ion-input 
+              [(ngModel)]="newUser.Username" 
+              name="Username" 
+              type="text" 
+              required
+              clearInput>
+            </ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input 
+              [(ngModel)]="newUser.Email" 
+              name="Email" 
+              type="email" 
+              required
+              clearInput>
+            </ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input 
+              [(ngModel)]="newUser.Password" 
+              name="Password" 
+              type="password" 
+              [required]="!isEditMode"
+              clearInput>
+            </ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Rol</ion-label>
+            <ion-select [(ngModel)]="newUser.Role" name="Role" required interface="popover">
+              <ion-select-option value="Admin">Admin</ion-select-option>
+              <ion-select-option value="Usuario">Usuario</ion-select-option>
+            </ion-select>
+          </ion-item>
+          
+          <ion-item lines="none">
+            <ion-label>Activo</ion-label>
+            <ion-toggle [(ngModel)]="newUser.IsActive" name="IsActive" mode="ios"></ion-toggle>
+          </ion-item>
+          
+          <ion-text color="danger" *ngIf="createUserError" class="ion-padding ion-text-center">
+            <p>{{ createUserError }}</p>
+          </ion-text>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+
+
+<app-bottom-nav></app-bottom-nav>

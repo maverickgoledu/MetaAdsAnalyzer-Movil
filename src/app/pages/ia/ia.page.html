@@ -1,0 +1,238 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text="Dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Análisis IA</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Descripción -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="bulb-outline" color="primary"></ion-icon>
+        Análisis de Inteligencia Artificial
+      </ion-card-title>
+      <ion-card-subtitle>
+        Obtén insights y recomendaciones basadas en IA para tus campañas Meta ADS
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <!-- Formulario de filtros -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Seleccionar datos para análisis</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <form (ngSubmit)="generateAnalysis()" #analysisForm="ngForm">
+        <ion-item lines="none">
+          <ion-label position="floating">Fecha de inicio</ion-label>
+          <ion-input 
+            type="date" 
+            [(ngModel)]="filters.startDate" 
+            name="startDate"
+            [disabled]="isLoading"
+            required>
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label position="floating">Fecha de fin</ion-label>
+          <ion-input 
+            type="date" 
+            [(ngModel)]="filters.endDate" 
+            name="endDate"
+            [disabled]="isLoading"
+            required>
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label position="floating">Conjunto de anuncios</ion-label>
+          <ion-select 
+            [(ngModel)]="filters.adSetName" 
+            name="adSetName"
+            interface="popover"
+            [disabled]="isLoading">
+            <ion-select-option value="">Todos los conjuntos</ion-select-option>
+            <ion-select-option *ngFor="let adSet of availableAdSets" [value]="adSet">
+              {{ adSet }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button 
+          expand="block" 
+          type="submit" 
+          color="primary" 
+          class="ion-margin-top"
+          [disabled]="isLoading || analysisForm.invalid">
+          <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+          <ion-icon *ngIf="!isLoading" name="analytics-outline" slot="start"></ion-icon>
+          {{ isLoading ? 'Generando análisis...' : 'Generar Análisis' }}
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Mensaje de error -->
+  <ion-item *ngIf="error" lines="none" color="danger">
+    <ion-icon name="alert-circle-outline" slot="start"></ion-icon>
+    <ion-label>
+      <p>{{ error }}</p>
+    </ion-label>
+  </ion-item>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="circular" color="primary"></ion-spinner>
+    <p>
+      <ion-text color="medium">
+        Analizando datos con inteligencia artificial...
+      </ion-text>
+    </p>
+  </div>
+
+  <!-- Resultado del análisis -->
+  <div *ngIf="analysisData && analysisData.HasAnalysis && !isLoading">
+    <!-- Resumen de datos -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>
+          <ion-icon name="bar-chart-outline" slot="start"></ion-icon>
+          Resumen de datos analizados
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6" size-md="4">
+              <ion-text color="medium">
+                <p><small>Conjuntos</small></p>
+              </ion-text>
+              <ion-text>
+                <h3>{{ analysisData.Summary.AdSetCount }}</h3>
+              </ion-text>
+            </ion-col>
+            
+            <ion-col size="6" size-md="4">
+              <ion-text color="medium">
+                <p><small>Importe gastado</small></p>
+              </ion-text>
+              <ion-text color="primary">
+                <h3>{{ formatCurrency(analysisData.Summary.TotalSpent) }}</h3>
+              </ion-text>
+            </ion-col>
+            
+            <ion-col size="6" size-md="4">
+              <ion-text color="medium">
+                <p><small>Alcance</small></p>
+              </ion-text>
+              <ion-text>
+                <h3>{{ formatNumber(analysisData.Summary.TotalReach) }}</h3>
+              </ion-text>
+            </ion-col>
+            
+            <ion-col size="6" size-md="4">
+              <ion-text color="medium">
+                <p><small>Impresiones</small></p>
+              </ion-text>
+              <ion-text>
+                <h3>{{ formatNumber(analysisData.Summary.TotalImpressions) }}</h3>
+              </ion-text>
+            </ion-col>
+            
+            <ion-col size="6" size-md="4">
+              <ion-text color="medium">
+                <p><small>Resultados</small></p>
+              </ion-text>
+              <ion-text color="success">
+                <h3>{{ formatNumber(analysisData.Summary.TotalResults) }}</h3>
+              </ion-text>
+            </ion-col>
+            
+            <ion-col size="6" size-md="4">
+              <ion-text color="medium">
+                <p><small>Costo/Resultado</small></p>
+              </ion-text>
+              <ion-text color="warning">
+                <h3>{{ formatCurrency(analysisData.Summary.CostPerResult) }}</h3>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Análisis de IA -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>
+          <ion-icon name="bulb-outline" slot="start" color="primary"></ion-icon>
+          Análisis de Inteligencia Artificial
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="ion-padding" [innerHTML]="formatMarkdownIonic(analysisData.Analysis)"></div>
+        
+        <!-- Botones de acción -->
+        <ion-grid class="ion-margin-top">
+          <ion-row>
+            <ion-col size="12" size-sm="6">
+              <ion-button expand="block" fill="outline" (click)="copyAnalysis()">
+                <ion-icon name="copy-outline" slot="start"></ion-icon>
+                Copiar análisis
+              </ion-button>
+            </ion-col>
+            <ion-col size="12" size-sm="6">
+              <ion-button expand="block" fill="outline" (click)="shareAnalysis()">
+                <ion-icon name="share-social-outline" slot="start"></ion-icon>
+                Compartir
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Estado inicial -->
+  <ion-card *ngIf="!analysisData || !analysisData.HasAnalysis" class="ion-text-center">
+    <ion-card-content class="ion-padding">
+      <ion-icon name="analytics-outline" color="primary" size="large"></ion-icon>
+      <h2>
+        <ion-text color="dark">
+          Análisis de Inteligencia Artificial
+        </ion-text>
+      </h2>
+      <p>
+        <ion-text color="medium">
+          Selecciona un rango de fechas y opcionalmente un conjunto de anuncios específico,
+          luego haz clic en "Generar Análisis" para obtener recomendaciones basadas en IA.
+        </ion-text>
+      </p>
+      <p>
+        <ion-text color="medium">
+          <small>
+            La IA analizará tus datos y proporcionará insights accionables para mejorar el rendimiento de tus campañas.
+          </small>
+        </ion-text>
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- FAB para limpiar filtros -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="analysisData">
+    <ion-fab-button size="small" color="danger" (click)="clearFilters()">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+      <app-bottom-nav></app-bottom-nav>
+
+
+ 

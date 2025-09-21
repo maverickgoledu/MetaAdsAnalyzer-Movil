@@ -1,0 +1,51 @@
+ion-header, ion-toolbar {
+	--background: #fff;
+	background: #fff;
+}
+
+ion-title {
+	color: #222 !important;
+	white-space: normal;
+	word-break: break-word;
+	text-align: center;
+}
+:host {
+	display: block;
+	min-height: 100vh;
+}
+
+ion-card {
+	--background: #fff;
+	background: #fff;
+}
+/* Estilos para inicio */
+
+
+ion-content {
+  --background: #fff;
+}
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.card-title {
+	color: #6d28d9; /* purple-700 */
+	font-weight: 600;
+}
+
+
+.card-description {
+	color: #4b5563; /* gray-600 */
+}
+
+.feature-title {
+	color: #6d28d9; /* purple-700 */
+	font-weight: 500;
+}
+
+
+.feature-description {
+	color: #4b5563; /* gray-600 */
+}

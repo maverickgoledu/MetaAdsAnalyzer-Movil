@@ -1,8 +1,8 @@
-# 🌿 Branch Workflow - MetaAdsAnalyzer Móvil
+# Branch Workflow - MetaAdsAnalyzer Móvil
 
 Este documento describe el flujo de trabajo de ramas (branching strategy) para el proyecto MetaAdsAnalyzer Móvil.
 
-## 📋 Tabla de Contenidos
+## Tabla de Contenidos
 
 - [Estrategia de Ramas](#estrategia-de-ramas)
 - [Tipos de Ramas](#tipos-de-ramas)
@@ -13,7 +13,7 @@ Este documento describe el flujo de trabajo de ramas (branching strategy) para e
 - [Versionado](#versionado)
 - [Ejemplos Prácticos](#ejemplos-prácticos)
 
-## 🎯 Estrategia de Ramas
+## Estrategia de Ramas
 
 Utilizamos una estrategia de **Git Flow simplificado** adaptado para desarrollo móvil:
 
@@ -26,7 +26,7 @@ main (producción)
 └── hotfix/error-critico
 ```
 
-## 🌳 Tipos de Ramas
+## Tipos de Ramas
 
 ### 1. **main** - Rama Principal
 - **Propósito**: Código en producción
@@ -34,32 +34,11 @@ main (producción)
 - **Protegida**: Requiere Pull Request y revisión
 - **Deploy**: Automático a tiendas de aplicaciones
 
-### 2. **develop** - Rama de Desarrollo
-- **Propósito**: Integración de features
-- **Base para**: Todas las ramas de feature y bugfix
-- **Testing**: Debe pasar todos los tests antes de merge a main
-
-### 3. **feature/** - Nuevas Funcionalidades
-- **Propósito**: Desarrollo de nuevas características
-- **Base**: develop
-- **Merge**: Vuelve a develop via Pull Request
-
-### 4. **bugfix/** - Corrección de Bugs
+### 2. **Pruebas/** - Corrección de Bugs
 - **Propósito**: Correción de errores no críticos
 - **Base**: develop
 - **Merge**: Vuelve a develop via Pull Request
-
-### 5. **hotfix/** - Correcciones Críticas
-- **Propósito**: Errores críticos en producción
-- **Base**: main
-- **Merge**: Tanto a main como a develop
-
-### 6. **release/** - Preparación de Release
-- **Propósito**: Preparar nueva versión
-- **Base**: develop
-- **Merge**: A main y develop
-
-## 📝 Nomenclatura
+##  Nomenclatura
 
 ### Formato General
 ```
@@ -94,7 +73,7 @@ release/v1.1.0
 - Descriptivo y específico
 - En español para este proyecto
 
-## 🔄 Flujo de Trabajo
+## Flujo de Trabajo
 
 ### Para Features y Bugfixes
 
@@ -237,14 +216,14 @@ git branch --merged | grep -v "\*\|main\|develop" | xargs -n 1 git branch -d
 git remote prune origin
 ```
 
-## 📋 Pull Requests
+## Pull Requests
 
 ### Criterios para PR
-- ✅ Código revisado y testeado
-- ✅ Tests unitarios pasan
-- ✅ Build exitoso
-- ✅ Documentación actualizada si es necesario
-- ✅ Conflictos resueltos
+- Código revisado y testeado
+- Tests unitarios pasan
+- Build exitoso
+- Documentación actualizada si es necesario
+- Conflictos resueltos
 
 ### Template de PR
 ```markdown
@@ -290,7 +269,7 @@ v1.1.1 - Corrección de bugs
 v2.0.0 - Cambios incompatibles (nueva API)
 ```
 
-## 💡 Ejemplos Prácticos
+## Ejemplos Prácticos
 
 ### Ejemplo 1: Nueva Feature - Dashboard
 ```bash
@@ -365,39 +344,3 @@ git checkout develop
 git merge release/v1.2.0
 git push origin develop
 ```
-
-## 🚨 Reglas Importantes
-
-1. **Nunca hacer push directo a main**
-2. **Siempre crear Pull Request para review**
-3. **Mantener ramas actualizadas con develop**
-4. **Eliminar ramas después del merge**
-5. **Usar commits descriptivos**
-6. **Testear antes de crear PR**
-
-## 🎨 Convención de Commits
-
-Usamos **Conventional Commits**:
-
-```bash
-tipo(scope): descripción
-
-feat(auth): agregar login con Google
-fix(dashboard): corregir error en gráficos
-docs(readme): actualizar instrucciones de instalación
-style(login): mejorar diseño del formulario
-refactor(services): reestructurar servicio de API
-test(dashboard): agregar tests unitarios
-chore(deps): actualizar dependencias
-```
-
-## 📞 Ayuda y Soporte
-
-Si tienes dudas sobre el flujo de trabajo:
-1. Consulta este documento
-2. Pregunta al equipo de desarrollo
-3. Revisa la documentación de Git
-
----
-
-**Recuerda**: Un buen flujo de ramas mantiene el código organizado y facilita la colaboración en equipo. 🚀

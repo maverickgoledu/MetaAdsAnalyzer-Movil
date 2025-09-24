@@ -2,7 +2,7 @@
 
 Una aplicación móvil desarrollada con **Ionic Framework** y **Angular** para el análisis de anuncios de Meta (Facebook/Instagram).
 
-## 📋 Tabla de Contenidos
+## Tabla de Contenidos
 
 - [Características](#características)
 - [Tecnologías](#tecnologías)
@@ -16,7 +16,7 @@ Una aplicación móvil desarrollada con **Ionic Framework** y **Angular** para e
 - [Contribución](#contribución)
 - [Licencia](#licencia)
 
-## ✨ Características
+## Características
 
 - 📊 Dashboard con métricas de anuncios
 - 🤖 Integración con Inteligencia Artificial
@@ -35,7 +35,7 @@ Una aplicación móvil desarrollada con **Ionic Framework** y **Angular** para e
 - **Icons**: Ionicons 7.4.0
 - **Language**: TypeScript 5.8.0
 
-## 📋 Prerequisitos
+## Prerequisitos
 
 Antes de comenzar, asegúrate de tener instalado:
 
@@ -63,7 +63,7 @@ npm install -g @angular/cli
 - Xcode 12+
 - iOS SDK
 
-## ⚡ Instalación
+## Instalación
 
 1. **Clonar el repositorio**
    ```bash
@@ -81,7 +81,7 @@ npm install -g @angular/cli
    ionic capacitor sync
    ```
 
-## 🔧 Desarrollo
+## Desarrollo
 
 ### Servidor de Desarrollo
 
@@ -121,7 +121,7 @@ ionic capacitor copy
 ionic capacitor update
 ```
 
-## 🏗️ Build
+## Build
 
 ### Build para Producción Web
 ```bash
@@ -149,7 +149,7 @@ npm run build
    ionic capacitor open ios
    ```
 
-## 🚢 Deployment
+## Deployment
 
 ### Android
 1. Abrir Android Studio
@@ -168,7 +168,7 @@ ionic build --prod
 # Subir contenido de ./www a tu servidor web
 ```
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Tests unitarios
@@ -181,7 +181,7 @@ npm run test -- --code-coverage
 npm run lint
 ```
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 src/
@@ -203,13 +203,13 @@ src/
 └── theme/                # Estilos globales
 ```
 
-## 🎨 Personalización de Tema
+## Personalización de Tema
 
 Los colores y estilos se pueden personalizar en:
 - `src/theme/variables.scss` - Variables CSS personalizadas
 - `src/global.scss` - Estilos globales
 
-## 🔧 Configuración
+## Configuración
 
 ### Variables de Entorno
 
@@ -236,7 +236,7 @@ const config: CapacitorConfig = {
 };
 ```
 
-## 📱 Plugins Utilizados
+## Plugins Utilizados
 
 - `@capacitor/app` - Información de la aplicación
 - `@capacitor/clipboard` - Acceso al portapapeles
@@ -246,7 +246,7 @@ const config: CapacitorConfig = {
 - `@capacitor/share` - Compartir contenido
 - `@capacitor/status-bar` - Control de la barra de estado
 
-## 🤝 Contribución
+## Contribución
 
 1. Fork el proyecto
 2. Crear una rama para tu feature (`git checkout -b feature/AmazingFeature`)
@@ -256,24 +256,3 @@ const config: CapacitorConfig = {
 
 Ver [BRANCH_WORKFLOW.md](./BRANCH_WORKFLOW.md) para más detalles sobre el flujo de trabajo con ramas.
 
-## 🔗 Enlaces Útiles
-
-- [Documentación de Ionic](https://ionicframework.com/docs/)
-- [Angular Documentation](https://angular.io/docs)
-- [Capacitor Documentation](https://capacitorjs.com/docs)
-- [Ionic Native](https://ionicframework.com/docs/native)
-
-## 📞 Soporte
-
-Si tienes preguntas o problemas, puedes:
-- Abrir un issue en GitHub
-- Consultar la documentación oficial
-- Contactar al equipo de desarrollo
-
-## 📝 Licencia
-
-Este proyecto está bajo la licencia [MIT](LICENSE).
-
----
-
-**Desarrollado con ❤️ usando Ionic + Angular**

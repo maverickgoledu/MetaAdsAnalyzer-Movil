@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run linting
+      run: npm run lint
+    
+    - name: Run tests
+      run: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+    
+    - name: Build
+      run: npm run build --prod
+    
+    - name: Generate build hash
+      run: |
+        cd www
+        find . -type f -exec sha256sum {} \; > build_hash.txt
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-build
+        path: www/
+        
+    - name: Upload build hash
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-hash
+        path: www/build_hash.txt

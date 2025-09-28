@@ -8,6 +8,9 @@
 
 ## Participantes
 - **Presidente:** Jaime Sarabia (Configuration Manager y Desarrollador Principal)
+- **Miembros:**
+  - Isrrael Lopez (Desarrollador)
+  - Diego Valdivieso (Desarrollador)
 
 ## Agenda
 1. Revisión de CRs pendientes

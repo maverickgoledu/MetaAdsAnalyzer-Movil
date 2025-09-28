@@ -3,8 +3,11 @@
 ## Información General
 - **CR ID:** CR-001
 - **Fecha:** 2025-09-23
-- **Solicitante:** Jaime Sarabia
-- **Revisor:** Jaime Sarabia
+- **Solicitante:** [Jaime Sarabia/Isrrael Lopez/Diego Valdivieso]
+- **Revisores:** 
+  - Jaime Sarabia
+  - Isrrael Lopez
+  - Diego Valdivieso
 - **Rama Afectada:** pruebas
 - **Tipo de Cambio:** feat
 - **Prioridad:** Alta

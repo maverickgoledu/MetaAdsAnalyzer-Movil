@@ -3,16 +3,16 @@
 ## Estado de Items de Configuración
 Última actualización: 2025-09-27
 
-| IC | Versión | Estado | Responsable | Fecha Última Modificación | Branch |
+| IC | Versión | Estado | Responsables | Fecha Última Modificación | Branch |
 |----|---------|--------|-------------|--------------------------|---------|
-| `/src/app` | 1.0.0 | Activo | Jaime Sarabia | 2025-09-23 | main |
-| `/src/assets` | 1.0.0 | Activo | Jaime Sarabia | 2025-09-23 | main |
-| `package.json` | 1.0.0 | Activo | Jaime Sarabia | 2025-09-23 | main |
-| `angular.json` | 1.0.0 | Activo | Jaime Sarabia | 2025-09-23 | main |
+| `/src/app` | 1.0.0 | Activo | Jaime Sarabia, Isrrael Lopez | 2025-09-23 | main |
+| `/src/assets` | 1.0.0 | Activo | Diego Valdivieso | 2025-09-23 | main |
+| `package.json` | 1.0.0 | Activo | Isrrael Lopez | 2025-09-23 | main |
+| `angular.json` | 1.0.0 | Activo | Diego Valdivieso | 2025-09-23 | main |
 | `capacitor.config.ts` | 1.0.0 | Activo | Jaime Sarabia | 2025-09-23 | main |
-| `docs/CMP.md` | 1.0.0 | Activo | Jaime Sarabia | 2025-09-27 | main |
-| `README.md` | 1.0.1 | Activo | Jaime Sarabia | 2025-09-24 | main |
-| `BRANCH_WORKFLOW.md` | 1.0.0 | Activo | Jaime Sarabia | 2025-09-24 | main |
+| `docs/CMP.md` | 1.0.0 | Activo | Jaime Sarabia, Isrrael Lopez, Diego Valdivieso | 2025-09-27 | main |
+| `README.md` | 1.0.1 | Activo | Jaime Sarabia, Diego Valdivieso | 2025-09-24 | main |
+| `BRANCH_WORKFLOW.md` | 1.0.0 | Activo | Isrrael Lopez | 2025-09-24 | main |
 
 ## Historial de Cambios
 

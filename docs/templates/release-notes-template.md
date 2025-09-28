@@ -10,7 +10,10 @@
 ## Información General
 - **Versión:** [X.Y.Z]
 - **Fecha de Release:** [YYYY-MM-DD]
-- **Release Manager:** Jaime Sarabia
+- **Release Managers:** 
+  - Jaime Sarabia
+  - Isrrael Lopez
+  - Diego Valdivieso
 - **Branch de Origen:** [pruebas]
 - **Branch de Destino:** [main]
 

@@ -15,7 +15,10 @@ MetaAdsAnalyzer-Movil es una aplicación móvil desarrollada con Ionic/Angular q
 
 ## 3. Roles y Responsabilidades
 ### Configuration Manager
-- **Responsable:** Jaime Sarabia
+- **Responsables:** 
+  - Jaime Sarabia (Principal)
+  - Isrrael Lopez
+  - Diego Valdivieso
 - **Responsabilidades:**
   - Gestión del plan de configuración
   - Supervisión del control de versiones
@@ -29,7 +32,10 @@ MetaAdsAnalyzer-Movil es una aplicación móvil desarrollada con Ionic/Angular q
 - Participar en revisiones de código
 
 ### CCB (Change Control Board)
-- **Presidente:** Jaime Sarabia
+- **Miembros:**
+  - Jaime Sarabia (Presidente)
+  - Isrrael Lopez
+  - Diego Valdivieso
 - Evaluar solicitudes de cambio (CR)
 - Aprobar/rechazar cambios
 - Documentar decisiones
